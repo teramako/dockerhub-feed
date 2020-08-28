@@ -118,7 +118,7 @@ func CreateDockerTagFeed (namespace string, name string) *feeds.Feed {
 
 		feed.Add(&feeds.Item{
 			Title: fmt.Sprintf("%s:%s - Docker Hub Tags", name, tag.Name),
-			Id: fmt.Sprintf("tag:hub.docker.com,%s,%s,%s,%s", namespace, name, tag.Name, tag.Last_updated.Format("RFC3339")),
+			Id: fmt.Sprintf("tag:hub.docker.com,%s,%s,%s,%s", namespace, name, tag.Name, tag.Last_updated.Format(time.RFC3339)),
 			Link: &feeds.Link{Href: url},
 			Description: str.String(),
 			Author: &feeds.Author{Name: tag.Last_updater_username},
@@ -146,7 +146,7 @@ func atomHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/atom+xml")
-	w.Header().Set("Last-Modified", feed.Updated.Format("RFC1123"))
+	w.Header().Set("Last-Modified", feed.Updated.Format(time.RFC1123))
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintln(w, atom)
 }
